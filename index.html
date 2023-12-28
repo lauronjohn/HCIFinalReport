@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WHU Real Time Face Attendance System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        header {
+            background-color: #016b0a;
+            color: #fff;
+            text-align: center;
+            padding: 1em 0;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+        .section {
+            background: #7f7f7f;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .section h2 {
+            color: #016b0a;
+            margin-top: 0;
+        }
+        ul {
+            list-style-type: square;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #016b0a;
+            color: #fff;
+        }
+
+        .image-box-container {
+            display: flex; /* Applies flexbox layout */
+            justify-content: space-around; /* Adjusts spacing between the boxes */
+            flex-wrap: wrap; /* Allows boxes to wrap onto the next line if needed */
+        }
+
+        .image-box {
+            width: 500px;
+            height: 500px;
+            border: 2px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin: 10px; /* Adds some space around each box */
+        }
+
+        .image-box img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #016b0a;
+        }
+
+        strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        p{
+            color: #fff;
+        }
+
+        h3{
+            color:#ffffff;
+        }
+        
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>WHU Real Time Face Attendance System</h1>
+        <h4>Course: Human-Computer Interaction</h4>
+        <h4>Instructor: Deng Juan</h4>
+        <h4><u>Team</u></h4>
+        <h4>2021326660024- LAURON JOHN ALBERT</h4>
+        <h4>2021326660023- PLONGKAEW CHAIWAT</h4>
+    </header>
+
+    <section class="section">
+        <h2>Demo Video</h2>
+    </section>
+
+    <section class="section">
+        <h2>Summary</h2>
+        <p>Our Real-Time Face Attendance System was developed to streamline attendance recording in academic and industrial settings, addressing the inefficiencies of traditional roll call or sign-in methods. Initial user research revealed common problems in existing attendance systems, such as time consumption and inaccuracies, leading to the motivation behind our solution. The system utilizes facial recognition technology to identify individuals quickly and accurately, marking their attendance in real-time.</p>
+
+        <p>The development process included designing and prototyping, where we used Ageitgey’s face recognition API for facial feature extraction and comparison with data stored in Firebase. User interaction with the system was straightforward, involving approaching the webcam, waiting for face detection, and automatic attendance marking. The physical design was informed by surveys and feedback from students and teachers, leading to a user-friendly interface.</p>
+
+        <p>Our evaluation through testing on university campus showed that the system was effective, user-friendly, and highly learnable, with positive feedback from participants. Looking ahead, we plan to enhance security features, implement 'express registration,' and conduct broader tests to ensure the system’s reliability and inclusivity across various user groups. This innovative approach marks a significant shift in everyday attendance recording procedures, enhancing efficiency and accuracy in both educational and professional environments.</p>
+    </section>
+
+    <section class="section">
+        <h2>User Research and Requirement Analysis</h2>
+        <h3>Motivation: </h3>
+        <p>In many schools and workplaces, keeping track of who is present is usually done by hand or with simple computer systems. This old-fashioned way can lead to mistakes, take a lot of time, and be inefficient. People might sign in for their friends (called "buddy punching"), and it's a lot of work to keep track of everyone's attendance. Also, these methods don't give quick updates or detailed information about how often students or employees are actually there.</p>
+        <h3>Solution: </h3>
+        <p>Our Real-Time Face Attendance System is made to solve such common problem. It uses a camera to recognize people's faces to mark them as present. This makes the whole process faster, more accurate, and easier. It updates attendance records right away and keeps all the information in one place. This way, users such as teachers or managers can quickly see if someone is missing a lot of days and do something about it. For example, a school administrator might want to utilize our face attendance system so that they can accurately track and monitor student attendance to see who goes and doesn’t go to class. Similarly, a human resources manager in a company might want to utilize our system to automate employee attendance tracking and eliminate the need for time cards so that they can generate more accurate attendance reports for payroll purposes. </p>
+        <h3>System and User Requirements: </h3>
+        <ul>
+            <li>Our system will accurately and efficiently recognize people’s faces to mark their attendance to ensure convenience and satisfaction for the end-users.</li>
+            <li>The system implements an intuitive and user-friendly interface that is easy to navigate for administrators, employees, or any users interacting with our system.</li>
+            <li>It stores the user’s personal data such as name, id, major, etc for front-end interface usage and feedback.</li>
+            <li>The system should generally be used in a professional environment such as a school, event venue, or a company, where attendance checking is critical. </li>
+            <li>It is responsive and provide immediate feedback to users when capturing facial features, recognizing faces, or logging attendance. In this way, it will help users confirm that the system is functioning correctly and provide assurance that attendance is being accurately recorded.</li>
+            <li>The types of technologies that our system should generally be run on is any computer system with a camera.</li>
+        </ul>
+        
+    </section>
+
+    <section class="section">
+        <h2>Design and Prototyping</h2>
+        <h3>(1) Conceptual Design and Development- How will the RFAS perform and how does it work?</h3>
+        <p>The way our system implements facial recognition and attendance logging is, first, the system captures live video footage of individuals approaching the proximity of the environment and camera. Then, it detects and extracts the facial features from each frame of the video using computer vision algorithms in Ageitgey’s face recognition API. Once the facial features are extracted, the system compares them to Firebase (a real-time database) that stores the data of known faces. This comparison helps identify and recognize individuals in real-time. The system then logs the attendance of each recognized person.</p>
+        <img src="/Picture1.png" alt="picture1">
+        <h4>Standard interaction procedure for users using our Face Attendance System: </h4>
+        <ol>
+        <li>Program is initiated with the webcam turned on. The interface will display a status of “active” to indicate that the program is currently active and waiting to detect faces.</li>
+         <li>User approaches the webcam </li>
+        <li>User stays still and waits for the program to detect and process their face</li>
+        <li>The green target will change color to red as an indication to the user that their face has been detected.</li>
+        <li>A “loading” bar is displayed while the program compares their face to the known facial data stored in Firebase</li>
+        <li>End-User is determined as “marked” and their attendance is recorded into the database.</li>
+        <li>The user’s information as well as their updated attendance status is displayed on the program “marked” and “attended”. </li>
+        <li>User exit the camera proximity</li>
+        </ol>
+        <img src="/Picture2.png" alt="picture2" width="700" height="400">
+        
+        <h3>(2) Implementation (Code-Focused)</h3>
+        <p>For the implementation of the user interface, we coded it using the python programming language and the Pycharm IDE. During our coding process, we followed the basic set-up procedure to implement the logic, design, and function behind our face attendance system: </p>
+        <img src="/Picture3.png" alt="picture3">
+        <h4><u>Here are brief descriptions for each procedure in the diagram</u></h5>
+            <p>1-Import parameters and run the webcam for face detection.</p>
+            <p>2-Add graphics to create an interface showing the status of face detection (e.g., active loading).</p>
+            <p>3-Generate encodings for each student’s face once to enable comparison during attendance marking (encodings need to be created again when adding new students). </p>
+            <p>4-Utilize facial recognition using OpenCV and import the necessary libraries such as numpy, v2, and facial_recognition.</p>
+            <p>5-Set up a Firebase database for storing and retrieving information in real-time.</p>
+            <p>6-Convert the personal user data (id, name, major, etc) into JSON format in order to send and update it into Firebase</p>
+            <p>7-Create a Bucket for images in the same file used for running encodings so that all the images will be automatically uploaded to Firebase while generating encodings. </p>
+            <p>8-Fetch the data from Firebase and add it to graphics.</p>
+            <p>9-Check whether already marked</p>
+            <br>
+            <p><i>Since this is a Human-Computer interaction based project, we have not covered the in-depth coding details about our program. Rather, we will discuss and evaluate the user interaction and experience when utilizing our Face attendance system in order to observe in what ways our product was successful and unsuccessful in the prototype and implementation phase. In this way, we have also showcased the iterative design principle in order to learn what we can improve in our system for future works. For further comprehension, you can refer to the source code of our project which is located in the <b>Appendix</b>.</i></p>
+
+            <h3>(3) Physical Design (text, interaction styles, end-user interface)</h3>
+            <p>The development that led to the physical design of our system began with a rough sketch and a poll prototype survey of the design interface. Then, we gathered the results of the votes to determine which design to implement into the interface. Additionally, we also created a short-answer survey and gave it to some students and teachers in Wuhan University to gather data about their familiarity with face recognition technology and as well as feedback on expectations and needs in regards to attendance systems. There were a few suggestions for improvements from these participants that were taken into account for the final design.</p>
+            <h4>Rough Sketch: </h4>
+            <div class="image-box-container">
+                <p text-align="center">Sketch 1</p>
+                <div class="image-box">
+                    <img src="/Picture4.png" alt="picture4">
+                </div>
+                <p text-align="center">Sketch 2</p>
+                <div class="image-box">
+                    <img src="/Picture5.png" alt="picture5">
+                </div>
+            </div>
+
+            <h4>Poll Survey and Results:</h4>
+            <img src="/Picture6.png" alt="picture6" width="50%" height="50%">
+            <p><i>Please refer to the <b>Appendix</b> for the short-answer survey questions and results.</i></p>
+            <br>
+            <h4>Here is our Final Prototype Design of the interface: </h4>
+            <div class="image-box-container">
+                <p>Initial Interface</p>
+                <img src="/Picture7.png" alt="picture7" width="30%" height="30%">
+            <img src="/Picture8.png" alt="picture8" width="30%" height="30%">
+            <p>Secondary Interface</p>
+            </div>
+            <br>
+            <div class="image-box-container">
+                <img src="/Picture9.png" alt="picture9" width="10%" height="10%">
+                <img src="/Picture10.png" alt="picture10" width="10%" height="10%">
+                <img src="/Picture11.png" alt="picture11" width="10%" height="10%">
+                <p>Types of Status</p>
+            </div>
+    </section>
+
+    <section class="section">
+        <h2>RFAS Simulation #1 (Attendance Logging)</h2>
+        <img src="/Picture12.png" alt="picture12" width="40%" height="40%">
+        <img src="/Picture13.png" alt="picture13" width="40%" height="40%">
+        <img src="/Picture14.png" alt="picture14" width="40%" height="40%">
+        <img src="/Picture15.png" alt="picture15" width="40%" height="40%">
+    </section>
+
+    <section class="section">
+        <h2>RFAS Simulation #2 (Attended/Already Marked)</h2>
+        <img src="/Picture16.png" alt="picture12" width="40%" height="40%">
+        <img src="/Picture17.png" alt="picture13" width="40%" height="40%">
+        <img src="/Picture18.png" alt="picture14" width="40%" height="40%">
+    </section>
+
+    <section class="section">
+        <h2>Evaluation and Results</h2>
+        <p>Closely monitoring the effectiveness of our Real-Time Face Attendance System, we conducted a test on our university campus to evaluate its accuracy and user-friendliness in recording attendance. Three individuals, unfamiliar with our system, participated in this test. They were tasked with using the facial recognition technology at a specific location where our system's camera was set up.</p>
+        <p>Each participant approached the camera individually, activating the system, which then began the facial recognition process. We carefully observed how these first-time users interacted with the system, noting their ease of use and any potential challenges. Two team members were present during the test: one monitored the interaction and the other verified the data recorded in the real-time database.</p>
+        <p>The results were positive across all participants. The system accurately recognized each person and immediately updated their attendance status in the database, showcasing its efficiency. The participants found the process straightforward, reflecting the system's high learnability and minimal error rate. Their feedback emphasized the system's quick response and the simplicity of the process.</p>
+        <p>Encouraged by these promising initial results, we're planning more comprehensive tests with a larger and diverse group of users. These future tests aim to delve deeper into the system's performance in various scenarios and provide more extensive data on its overall usability and user experience.</p>
+    </section>
+
+    <section class="section">
+        <h2>Conclusion</h2>
+        <p>In both academic and industrial environments, where attendance traditionally involves roll call or sign-in sheets, the adoption of our Real-Time Face Attendance System has revolutionized the process. Whether in college lectures or corporate settings, when individuals pass the camera, facial recognition technology efficiently and accurately logs their attendance. This system is particularly effective in managing large groups, ensuring prompt commencement of classes or business meetings. By leveraging advanced technology, the system not only simplifies the attendance recording but also improves accuracy. This modern approach is a significant enhancement to routine operations in educational institutions and workplaces alike, marking a positive shift in everyday procedures for students and professionals.</p>
+    </section>
+
+    <section class="section">
+        <h2>Future Works</h2>
+        <p>Moving forward with our Real-Time Face Attendance System, we plan to enhance its security protocols and introduce a feature for 'express registration.' This would allow administrators or teachers to quickly enroll new users into the system by sending a secure link via email or text. Once the recipients click on this link, their basic information would be pre-registered, simplifying their first interaction with the facial recognition camera.</p>
+        <p>Additionally, we aim to conduct more comprehensive testing, involving participants from diverse backgrounds. This would help us assess the system’s performance and accuracy across a wider range of facial features and conditions, ensuring its reliability and inclusivity. Such improvements and expanded testing will not only fortify the system's security and ease of use but also broaden its applicability and effectiveness in various environments.</p>
+    </section>
+
+    <section class="section">
+        <h2>References</h2>
+        <ol>
+            <li>https://github.com/ageitgey/face_recognition</li>
+            <li>https://firebase.google.com/</li>
+            <li>https://zlib.pub/download/interaction-design-beyond-human-computer-interaction-68gcduir1810?hash=20f2ea130adab5696ee59a63ed35e9a0</li>
+            <li>https://opencv.org/</li>
+            <li>https://jp.surveymonkey.com/r/56CQPTB</li>
+            <li>https://careerfoundry.com/en/blog/ux-design/human-computer-interaction/</li>
+        </ol>
+    </section>
+
+    <section class="section">
+        <h2>Appendix</h2>
+        <h3>Survey Questions and Answers</h3>
+
+        <table class="demographic-table">
+            <tr>
+                <th>Demographic</th>
+            </tr>
+            <tr>
+                <td>What is your role (e.g., student, teacher, administrator, etc)?</td>
+            </tr>
+            <tr>
+                <td>Answer: "I am a student in Wuhan University studying Economics."</td>
+            </tr>
+            <tr>
+                <td>Answer 2: "Teacher"</td>
+            </tr>
+            <tr>
+                <td>How familiar are you with facial recognition technology?</td>
+            </tr>
+            <tr>
+                <td>Answer: "I've encountered facial recognition technology in a few different contexts, but I wouldn't say I'm an expert. I mostly see it in action on my smartphone, which uses face ID for unlocking. I've also noticed it being used for security purposes in some of the newer office buildings I've visited as well as the campus gates here in Wuhan University. While I understand the basic idea - that it uses a camera to identify individuals based on their facial features - I'm not too familiar with the technical details or the broader range of its applications. So, I would say I have a general awareness of the technology but limited in-depth knowledge about it."</td>
+            </tr>
+        </table>
+        
+        <table class="demographic-table">
+            <tr>
+                <th>Usage and Experience </th>
+            </tr>
+            <tr>
+                <td>Have you ever used a facial recognition system for attendance? If yes, please describe your experience.</td>
+            </tr>
+            <tr>
+                <td>Answer: "Not really, but I've used facial recognition for entering my dorm. It was quick and easy; I just looked at a screen, and it opened the gate for me. There were a few times it didn't recognize me right away, but overall, it was a smooth experience."</td>
+            </tr>
+            <tr>
+                <td>What features do you consider most important in an attendance management system?</td>
+            </tr>
+            <tr>
+                <td>Answer: “For me, the most important features in an attendance management system are accuracy, speed, and user-friendliness. It should correctly identify individuals without errors, work quickly to avoid delays, and be easy for everyone to use without needing technical knowledge.”</td>
+            </tr>
+        </table>
+
+        <table class="demographic-table">
+            <tr>
+                <th>Expectations and Needs </th>
+            </tr>
+            <tr>
+                <td>How do you currently mark or record attendance? What are the challenges you face with this method? (Optional)</td>
+            </tr>
+            <tr>
+                <td>Answer: "Currently, our attendance is recorded manually. We sign our names on a piece of paper to mark that we have attended/participated. The biggest challenge with this method is that it's time-consuming, especially when there's a queue. Sometimes, the paper might get lost, or entries become illegible, which leads to confusion about who was actually present. Also, there's no way to prevent someone from signing in for a another person, so it's not the most reliable method."</td>
+            </tr>
+            <tr>
+                <td>What improvements would you like to see in the current attendance recording process?</td>
+            </tr>
+            <tr>
+                <td>Answer: “I would really appreciate a more efficient and automated system. Ideally, something that’s quick and doesn’t create delay when I enter. It should also be accurate and eliminate the possibility of someone marking attendance for others. Additionally, a digital system that could provide real-time updates and allow us to track our attendance history would be great.”</td>
+            </tr>
+        </table>
+
+        <table class="demographic-table">
+            <tr>
+                <th>Perception of Facial Recognition Technology </th>
+            </tr>
+            <tr>
+                <td>What are your initial thoughts about using facial recognition for attendance purposes?</td>
+            </tr>
+            <tr>
+                <td>Answer: “My initial thoughts about using facial recognition for attendance are quite positive. It seems like a high-tech and efficient solution that could save time and reduce manual effort. The idea of just walking in and being automatically recognized sounds convenient.”</td>
+            </tr>
+            <tr>
+                <td>Do you have any concerns regarding privacy or security with facial recognition technology? Please elaborate.</td>
+            </tr>
+            <tr>
+                <td>Answer: “Yes, I do have some concerns about privacy and the security of my facial data. I would need assurance that my personal information is protected and not misused. I'm open to the idea but would like more information about how privacy concerns are addressed.”</td>
+            </tr>
+        </table>
+
+        <table class="demographic-table">
+            <tr>
+                <th>System Interaction and Functionality </th>
+            </tr>
+            <tr>
+                <td>In an ideal situation, how would you like the process of marking attendance with facial recognition to work?</td>
+            </tr>
+            <tr>
+                <td>Answer: "I'd like the facial recognition attendance system to be very straightforward and user-friendly. When I enter a building, I envision there should be a screen with a camera set up at the entrance. As I walk in, the camera would quickly and accurately recognize my face without me having to stop or pose. The system should then instantly mark and update my attendance. I think the system should work efficiently even during peak hours when multiple people are entering. Also, for privacy, I'd prefer if the system only stores minimal necessary data and ensures it's securely handled."</td>
+            </tr>
+            <tr>
+                <td>Are there any specific features you would expect in a real-time face attendance system (e.g., real-time updates, easy access to attendance records)?</td>
+            </tr>
+            <tr>
+                <td>Answer: "Yes, there are a few features I'd expect in a real-time face attendance system. Firstly, it should provide immediate updates; as soon as someone is marked present, it should give feedback and reflect in the system without delay. Easy access to attendance records is also crucial, not just for teachers but for students to view their own attendance history. I'd also expect a high level of accuracy in face detection to avoid any errors in marking attendance. Moreover, the system should be able to handle different lighting conditions and recognize faces with minor changes, like new hairstyles or glasses.”</td>
+            </tr>
+        </table>
+
+        <table class="demographic-table">
+            <tr>
+                <th>Potential Benefits and Drawbacks</th>
+            </tr>
+            <tr>
+                <td>What do you think would be the main benefits of using a real-time face attendance system?</td>
+            </tr>
+            <tr>
+                <td>Answer: "I believe the main benefits of using a real-time face attendance system would include increased efficiency and accuracy. Such a system would eliminate the need for manual sign-ins, speeding up the process of marking attendance. It would also reduce the chances of errors or fraudulent attendance, like someone signing in for someone else. Additionally, it could enhance security by ensuring that only authorized individuals are present in a facility."</td>
+            </tr>
+            <tr>
+                <td>Are there any potential drawbacks or issues you foresee with such a system?</td>
+            </tr>
+            <tr>
+                <td>Answer: “One potential issue with a facial recognition attendance system could be privacy concerns, as people might be uneasy about their biometric data being collected. There's also the risk of technical glitches, like the system failing to recognize a face correctly, which could lead to attendance errors.”</td>
+            </tr>
+        </table>
+
+        <table class="demographic-table">
+            <tr>
+                <th>User Interface and Accessibility</th>
+            </tr>
+            <tr>
+                <td>How important is the ease of use of the attendance system's interface for you?</td>
+            </tr>
+            <tr>
+                <td>Answer: "Very important. The system should be simple and user-friendly, suitable for all skill levels."</td>
+            </tr>
+            <tr>
+                <td>Do you have any suggestions or preferences for the system's user interface design?</td>
+            </tr>
+            <tr>
+                <td>Answer: "I'd prefer a clean and minimalistic interface with clear instructions. Big, easily readable fonts and straightforward navigation are important to me. Also, visual indicators for successful or unsuccessful attendance marking would be helpful."</td>
+            </tr>
+        </table>
+
+
+        <table class="demographic-table">
+            <tr>
+                <th>Overall Willingness to Adopt</th>
+            </tr>
+            <tr>
+                <td>On a scale of 1-10, how willing would you be to use a real-time face attendance system?</td>
+            </tr>
+            <tr>
+                <td>Answer: 8</td>
+            </tr>
+            <tr>
+                <td>What factors would influence your decision to use or not use this system?</td>
+            </tr>
+            <tr>
+                <td>Answer: “The key factors for me would be the system's accuracy and usability”</td>
+            </tr>
+        </table>
+
+        <table class="demographic-table">
+            <tr>
+                <th>Open-Ended Feedback</th>
+            </tr>
+            <tr>
+                <td>Do you have any additional comments or suggestions regarding the use of facial recognition for attendance tracking?</td>
+            </tr>
+            <tr>
+                <td>Answer: "I think it'd be interesting if the system could offer personalized greetings as it recognizes each person, adding a human touch to the technology. Also, it might be useful to have a feature where the system sends a brief daily or weekly attendance summary to users, so they can keep track of their own attendance record. Overall, I think facial technology for attendance tracking is a very innovative and cool idea.”</td>
+            </tr>
+        </table>
+
+        <p>Our RFAS Source Code Link: <a href="url">Real Time Face Attendance System</a></p>
+    </section>
+</body>
+</html>
